@@ -44,17 +44,14 @@ def main():
     grafo = construir_rede(config)
 
     if algoritmo == "busca_flooding":
-        visitados, mensagens, encontrado = busca_flooding(grafo, no_inicial, recurso, ttl, config)
+        visitados, mensagens, arestas_visitadas, encontrado = busca_flooding(grafo, no_inicial, recurso, ttl, config)
     elif algoritmo == "busca_passeio_aleatorio":
-        visitados, mensagens, encontrado = busca_passeio_aleatorio(grafo, no_inicial, recurso, ttl, config)
+        visitados, mensagens, arestas_visitadas, encontrado = busca_passeio_aleatorio(grafo, no_inicial, recurso, ttl, config)
     elif algoritmo == "busca_informado":
         visitados, mensagens, encontrado = busca_informado(grafo, no_inicial, recurso, ttl, config)
 
-    arestas_visitadas = []
+    
     visitados = list(visitados)
-    for i in range(len(visitados) - 1):
-        if grafo.has_edge(visitados[i], visitados[i + 1]):
-            arestas_visitadas.append((visitados[i], visitados[i + 1]))
 
     caminho = {"nos": set(visitados), "arestas": arestas_visitadas}
 
