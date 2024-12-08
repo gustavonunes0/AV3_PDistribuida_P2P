@@ -1,3 +1,4 @@
 from .busca_flooding import busca_flooding
 from .busca_passeio_aleatorio import busca_passeio_aleatorio
 from .busca_informado import busca_informado
+from .busca_flooding_cache import busca_flooding_cache
