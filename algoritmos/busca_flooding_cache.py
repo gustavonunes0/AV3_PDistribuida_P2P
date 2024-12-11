@@ -14,6 +14,7 @@ def busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo
     mensagens = 0
     arestas_percorridas = []
     fila = deque([(no_inicial, ttl)])
+    achou = False
 
     while fila:
         no_atual, ttl_atual = fila.popleft()
@@ -22,14 +23,14 @@ def busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo
             continue
 
         visitados.add(no_atual)
-        mensagens += 1
 
         cache_atual = cache.get(no_atual, [])
         # Verificar se o recurso está no cache do nó atual
         if any(dicionario.get(recurso) is not None for dicionario in cache_atual):
             print(f"Recurso '{recurso}' encontrado no cache do nó {no_atual}.")
             return visitados, mensagens, arestas_percorridas, True
-
+        
+        mensagens += 1
         # Verificar se o recurso está diretamente disponível no nó atual
         if recurso in config['resources'].get(no_atual, []):
             # Atualizar o cache de todos os nós visitados com a localização do recurso
@@ -40,8 +41,7 @@ def busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo
             
             # Atualizar o cache no arquivo JSON
             atualizar_cache_no_json(arquivo_json, cache)
-
-            return visitados, mensagens, arestas_percorridas, True
+            achou = True
 
         # Propagar a busca para os vizinhos
         for vizinho in grafo.neighbors(no_atual):
@@ -50,4 +50,4 @@ def busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo
                 arestas_percorridas.append((no_atual, vizinho))
 
     print(f"Recurso '{recurso}' não encontrado.")
-    return visitados, mensagens, arestas_percorridas, False
+    return visitados, mensagens, arestas_percorridas, achou

@@ -5,6 +5,7 @@ def busca_flooding(grafo, no_inicial, recurso, ttl, config):
     mensagens = 0
     arestas_percorridas = []
     fila = deque([(no_inicial, ttl)])
+    achou = False
 
     while fila:
         no_atual, ttl_atual = fila.popleft()
@@ -16,11 +17,12 @@ def busca_flooding(grafo, no_inicial, recurso, ttl, config):
         mensagens += 1
 
         if recurso in config['resources'].get(no_atual, []):
-            return visitados, mensagens, arestas_percorridas, True
+            achou = True
+            #return visitados, mensagens, arestas_percorridas, True
 
         for vizinho in grafo.neighbors(no_atual):
             if vizinho not in visitados and ttl_atual > 0:
                 fila.append((vizinho, ttl_atual - 1))
                 arestas_percorridas.append((no_atual, vizinho))
 
-    return visitados, mensagens, arestas_percorridas, False
+    return visitados, mensagens, arestas_percorridas, achou

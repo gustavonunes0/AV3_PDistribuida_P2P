@@ -17,9 +17,6 @@ def busca_passeio_aleatorio(grafo, no_inicial, recurso, ttl, config):
             vizinhos.remove(proximo_no)
             if(len(vizinhos) > 0):
                 proximo_no = random.choice(vizinhos)
-       
-        # if(len(vizinhos) == 0 and len() != len(visitados)):
-        #     proximo_no = random.choice(vizinhos)
         
         ttl -= 1
         if(ttl >= 0):
