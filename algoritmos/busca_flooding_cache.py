@@ -24,17 +24,18 @@ def busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo
         visitados.add(no_atual)
         mensagens += 1
 
+        cache_atual = cache.get(no_atual, [])
         # Verificar se o recurso está no cache do nó atual
-        if recurso in cache.get(no_atual, []):
+        if any(dicionario.get(recurso) is not None for dicionario in cache_atual):
             print(f"Recurso '{recurso}' encontrado no cache do nó {no_atual}.")
             return visitados, mensagens, arestas_percorridas, True
 
         # Verificar se o recurso está diretamente disponível no nó atual
         if recurso in config['resources'].get(no_atual, []):
             # Atualizar o cache de todos os nós visitados com a localização do recurso
-            for no in visitados:
-                if recurso not in cache.get(no, []):  # Verifica se o recurso já está no cache do nó
-                    cache.setdefault(no, []).append(recurso)  # Inicializa a lista e adiciona o recurso
+
+            if {recurso: no_atual} not in cache.get(no_inicial, []):  # Verifica se o recurso já está no cache do nó
+                cache.setdefault(no_inicial, []).append({recurso: no_atual})  # Inicializa a lista e adiciona o recurso
             print(f"Recurso '{recurso}' encontrado diretamente no nó {no_atual}.")
             
             # Atualizar o cache no arquivo JSON
