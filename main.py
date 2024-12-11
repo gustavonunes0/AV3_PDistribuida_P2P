@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from rede import carregar_configuracao, construir_rede
-from algoritmos import busca_flooding, busca_passeio_aleatorio, busca_informado, busca_flooding_cache
+from algoritmos import busca_flooding, busca_passeio_aleatorio, busca_passeio_aleatorio_cache, busca_flooding_cache
 import networkx as nx
 import json
 
@@ -35,9 +35,9 @@ def main():
     no_inicial = input("Nó inicial (ex: n1): ").strip()
     recurso = input("Recurso buscado (ex: r15): ").strip()
     ttl = int(input("Tempo de vida (TTL, ex: 5): ").strip())
-    algoritmo = input("Algoritmo (busca_flooding, busca_flooding_cache, busca_passeio_aleatorio, busca_informado): ").strip()
+    algoritmo = input("Algoritmo (busca_flooding, busca_flooding_cache, busca_passeio_aleatorio, busca_passeio_aleatorio_cache): ").strip()
 
-    if algoritmo not in ["busca_flooding", "busca_flooding_cache", "busca_passeio_aleatorio", "busca_informado"]:
+    if algoritmo not in ["busca_flooding", "busca_flooding_cache", "busca_passeio_aleatorio", "busca_passeio_aleatorio_cache"]:
         print(f"Algoritmo inválido: {algoritmo}")
         return
 
@@ -59,8 +59,8 @@ def main():
         visitados, mensagens, arestas_visitadas, encontrado = busca_flooding_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo_configuracao)
     elif algoritmo == "busca_passeio_aleatorio":
         visitados, mensagens, arestas_visitadas, encontrado = busca_passeio_aleatorio(grafo, no_inicial, recurso, ttl, config)
-    elif algoritmo == "busca_informado":
-        visitados, mensagens, encontrado = busca_informado(grafo, no_inicial, recurso, ttl, config)
+    elif algoritmo == "busca_passeio_aleatorio_cache":
+        visitados, mensagens, arestas_visitadas, encontrado = busca_passeio_aleatorio_cache(grafo, no_inicial, recurso, ttl, config, cache, arquivo_configuracao)
     
     visitados = list(visitados)
 
